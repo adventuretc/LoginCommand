@@ -1,0 +1,24 @@
+<p>LoginCommand allows you to execute commands when players join your server.</p>
+<h2><strong>Concept</strong></h2>
+<p>The plugin uses command groups. Each group can have a number of commands. If a player has the corresponding permission node for a command group, those commands will be executed when he/she joins the server.</p>
+<p>The commands are executed from the console. You can also execute player commands by adding the "sudo %name_of_player%" prefix to a command.</p>
+<p>You can set a delay.</p>
+<p>You can set a cooldown.</p>
+<p>If you want some players to be ignored (regardless of other permissions), you can do that by giving them a permission node.</p>
+<h2><strong>Commands</strong></h2>
+<p>&nbsp;&nbsp;&nbsp; Reload the configuration file:</p>
+<pre>&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; /logincommand reload</pre>
+<p>&nbsp;&nbsp;&nbsp; Add a command to a command group; (also auto-creates the group):</p>
+<pre>        /logincommand add &lt;group&gt; &lt;command&gt;</pre>
+<p>&nbsp;&nbsp;&nbsp; Remove a command from a command group:</p>
+<pre>        /logincommand remove &lt;group&gt; &lt;command&gt;</pre>
+<h2><strong>Placeholders</strong></h2>
+<p>When you add a command and specify a placeholder, the placeholder will be replaced on every execution with its corresponding value.</p>
+<p>Valid placeholders are:</p>
+<p>&nbsp;&nbsp;&nbsp; The name of the player who joins the server:</p>
+<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; %name_of_player%</pre>
+<h2><strong>Permissions</strong></h2>
+<pre>logincommand.admin<br />    description: Allows you to edit and reload the config. <br />    default: operators<br /><br />logincommand.exempt<br />    description: The plugin will ignore your login.<br />    default: Nobody, but if you have the * permission node (for example, your Admin group has it), Bukkit will report that you have this permission as well. Use negative permission nodes to counteract this.<br /><br />logincommand.group.&lt;group&gt;<br />    description: Group specific permission for command execution.<br />    default: nobody</pre>
+<h2><strong>Example config</strong></h2>
+<p>execution delay (sec): 1<br /> login cooldown (min): 60<br /> configversion (don't change): 1<br /> ops exempt: true<br /> <em>when the above is true, ops will be ignored</em><br /> config:<br /> &nbsp; group1:<br /> &nbsp; - sudo &lt;name&gt; warp woods<br /> &nbsp; helper:<br /> &nbsp; - eco give &lt;name&gt; 10<br /> timestamps (auto generated): []</p>
+<p>What will happen?<br /> Players who have the logincommand.group.group1 permission will be teleported to warp woods after 1 second of their login, if their last login was more than 60 minutes ago.<br /> Player with the logincommand.group.helper permission will be given 10 amount of money (the same delay and cooldown applies, of course this plugin only executes commands and doesn't add this kind of functions).</p>
