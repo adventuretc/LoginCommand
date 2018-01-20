@@ -5,13 +5,35 @@
 <p>You can set a delay.</p>
 <p>You can set a cooldown.</p>
 <p>If you want some players to be ignored (regardless of other permissions), you can do that by giving them a permission node.</p>
+<h2><strong>Setup instructions</strong></h2>
+<h3>1. Download the plugin.</h3>
+<h3>2. Copy the plugin into your server's plugin folder.</h3>
+<h3>3. Start the server.</h3>
+<h3>4. Create a command group and add commands to it.</h3>
+<p>Let's say that we want to give Helpers a diamond pickaxe as an award when they join the server. We come up with a group name, "helpergifts" to store these commands.</p>
+<p>The generalized command to add a command is:</p>
+<pre>/logincommand add &lt;new group name&gt; &lt;command&gt;</pre>
+<p>In this case:</p>
+<pre>/logincommand add helpergifts give %name_of_player% diamond_pickaxe</pre>
+<h3>5. Give somebody the permission of the command group.</h3>
+<p>Now we have to give the permission group "Helpers" a certain permission node.</p>
+<p>In case you use PermissionEx, the command might look like this:</p>
+<pre>/pex group Helper add logincommand.group.helpergifts</pre>
+<h3>6. Further configuration:</h3>
+<p>You can find some more settings (command delay, cooldown, whether op's are exempt) in the configuration file. After making changes, issue the <strong>/logincommand reload</strong> command.</p>
+<h2><strong>Troubleshooting</strong></h2>
+<p>&nbsp;&nbsp;&nbsp; If the plugin doesn't work:</p>
+<p>&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; - Make sure that the player doesn't have the exempt permission node. See the <strong>Permissions</strong> section.</p>
+<p>&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; - On default settings, operators are exempt. If you want the plugin to affect them, set the value of "ops exempt" to "false" in the configuration file, then issue the <strong>/logincommand reload</strong> command.</p>
 <h2><strong>Commands</strong></h2>
+<p>&nbsp;&nbsp;&nbsp; Root command and aliases:</p>
+<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /logincommand<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /lic<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /lc</pre>
 <p>&nbsp;&nbsp;&nbsp; Reload the configuration file:</p>
-<pre>&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; /logincommand reload</pre>
+<pre>&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; /lc reload</pre>
 <p>&nbsp;&nbsp;&nbsp; Add a command to a command group; (also auto-creates the group):</p>
-<pre>        /logincommand add &lt;group&gt; &lt;command&gt;</pre>
+<pre>        /lc add &lt;group&gt; &lt;command&gt;</pre>
 <p>&nbsp;&nbsp;&nbsp; Remove a command from a command group:</p>
-<pre>        /logincommand remove &lt;group&gt; &lt;command&gt;</pre>
+<pre>        /lc remove &lt;group&gt; &lt;command&gt;</pre>
 <h2><strong>Placeholders</strong></h2>
 <p>When you add a command and specify a placeholder, the placeholder will be replaced on every execution with its corresponding value.</p>
 <p>Valid placeholders are:</p>
@@ -20,5 +42,5 @@
 <h2><strong>Permissions</strong></h2>
 <pre>logincommand.admin<br />    description: Allows you to edit and reload the config. <br />    default: operators<br /><br />logincommand.exempt<br />    description: The plugin will ignore your login.<br />    default: Nobody, but if you have the * permission node (for example, your Admin group has it), Bukkit will report that you have this permission as well. Use negative permission nodes to counteract this.<br /><br />logincommand.group.&lt;group&gt;<br />    description: Group specific permission for command execution.<br />    default: nobody</pre>
 <h2><strong>Example config</strong></h2>
-<p>execution delay (sec): 1<br /> login cooldown (min): 60<br /> configversion (don't change): 1<br /> ops exempt: true<br /> <em>when the above is true, ops will be ignored</em><br /> config:<br /> &nbsp; group1:<br /> &nbsp; - sudo &lt;name&gt; warp woods<br /> &nbsp; helper:<br /> &nbsp; - eco give &lt;name&gt; 10<br /> timestamps (auto generated): []</p>
-<p>What will happen?<br /> Players who have the logincommand.group.group1 permission will be teleported to warp woods after 1 second of their login, if their last login was more than 60 minutes ago.<br /> Player with the logincommand.group.helper permission will be given 10 amount of money (the same delay and cooldown applies, of course this plugin only executes commands and doesn't add this kind of functions).</p>
+<pre>execution delay (sec): 1<br /> login cooldown (min): 60<br /> configversion (don't change): 2<br /> ops exempt: true<br /> # when the above is true, operators will be ignored<br /> config:<br /> &nbsp; group1:<br /> &nbsp; - sudo &lt;name&gt; warp woods<br /> &nbsp; helper:<br /> &nbsp; - eco give &lt;name&gt; 10<br /> timestamps (auto generated): []</pre>
+<p>The effects:<br /> Players who have the logincommand.group.group1 permission will be teleported to warp woods after 1 second of their joining, if their last login was more than 60 minutes ago.<br /> Players with the logincommand.group.helper permission will be given 10 units of money (the same delay and cooldown applies).</p>
