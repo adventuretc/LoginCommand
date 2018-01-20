@@ -1,0 +1,95 @@
+LoginCommand allows you to execute commands when players join your server.
+
+[SIZE=7][B][B]Concept[/B][/B][/SIZE]
+The plugin uses command groups. Each group can have a number of commands. If a player has the corresponding permission node for a command group, those commands will be executed when he/she joins the server.
+
+The commands are executed from the console. You can also execute player commands by adding the "sudo %name_of_player%" prefix to a command.
+
+You can set a delay.
+
+You can set a cooldown.
+
+If you want some players to be ignored (regardless of other permissions), you can do that by giving them a permission node.
+
+[SIZE=7][B][B]Setup instructions[/B][/B][/SIZE]
+[B]1. Download the plugin.[/B]
+
+[B]2. Copy the plugin into your server's plugin folder.[/B]
+
+[B]3. Start the server.[/B]
+
+[B]4. Create a command group and add commands to it.[/B]
+
+[INDENT]Let's say that we want to give Helpers a diamond pickaxe as an award when they join the server. We come up with a group name, "helpergifts" to store these commands.
+
+The generalized command to add a command is:[code]/logincommand add <new group name> <command>[/code]
+
+In this case:[code]/logincommand add helpergifts give %name_of_player% diamond_pickaxe[/code][/INDENT]
+
+[B]5. Give somebody the permission of the command group.[/B]
+
+[INDENT]Now we have to give the permission group "Helpers" a certain permission node.
+
+In case you use PermissionEx, the command might look like this:[code]/pex group Helper add logincommand.group.helpergifts[/code][/INDENT]
+
+[B]6. Further configuration:[/B]
+[INDENT]
+You can find some more settings (command delay, cooldown, whether op's are exempt) in the configuration file. After making changes, issue the [B]/logincommand reload[/B] command.
+[/INDENT]
+[SIZE=7][B][B]Troubleshooting[/B][/B][/SIZE]
+[INDENT]If the plugin doesn't work:
+
+[INDENT]- Make sure that the player doesn't have the exempt permission node. See the [B]Permissions[/B] section.
+
+- On default settings, operators are exempt. If you want the plugin to affect them, set the value of "ops exempt" to "false" in the configuration file, then issue the [B]/logincommand reload[/B] command.[/INDENT][/INDENT]
+
+[SIZE=7][B][B]Commands[/B][/B][/SIZE]
+[INDENT]Root command and aliases:
+[INDENT][code]/logincommand[/code]
+[code]/lic[/code]
+[code]/lc[/code][/INDENT]
+Reload the configuration file:
+[INDENT][code]/logincommand reload[/code][/INDENT][/INDENT]
+
+[INDENT]Add a command to a command group; (also auto-creates the group):
+[INDENT][code]/logincommand add <group> <command>[/code][/INDENT][/INDENT]
+
+[INDENT]Remove a command from a command group:
+[INDENT][code]/logincommand remove <group> <command>[/code][/INDENT][/INDENT]
+
+[SIZE=7][B][B]Placeholders[/B][/B][/SIZE]
+When you add a command and specify a placeholder, the placeholder will be replaced on every execution with its corresponding value.
+
+Valid placeholders are:
+
+    The name of the player who joins the server:[code]        %name_of_player%[/code]
+
+[SIZE=7][B][B]Permissions[/B][/B][/SIZE]
+[code]logincommand.admin
+description: Allows you to edit and reload the config.
+default: operators
+
+logincommand.exempt
+description: The plugin will ignore your login.
+default: Nobody, but if you have the * permission node (for example, your Admin group has it), Bukkit will report that you have this permission as well. Use negative permission nodes to counteract this.
+
+logincommand.group.<group>
+description: Group specific permission for command execution.
+default: nobody[/code]
+
+[SIZE=7][B][B]Example config[/B][/B][/SIZE]
+[code]execution delay (sec): 1
+ login cooldown (min): 60
+ configversion (don't change): 2
+ ops exempt: true
+ # when the above is true, operators will be ignored
+ config:
+   group1:
+   - sudo <name> warp woods
+   helper:
+   - eco give <name> 10
+ timestamps (auto generated): [][/code]
+
+The effects:
+ Players who have the logincommand.group.group1 permission will be teleported to warp woods after 1 second of their joining, if their last login was more than 60 minutes ago.
+ Players with the logincommand.group.helper permission will be given 10 units of money (the same delay and cooldown applies).
